@@ -24,7 +24,11 @@ static char *append_arg(char *dst, const char *arg)
                 for (int i = 0; i < bs * 2; ++i) *dst++ = '\\';
                 if (*p) { *dst++ = '\\'; *dst++ = '"'; ++p; }
             } else {
-                for (int i = 0; i < bs; ++i) *dst++ = '\\';
+                if (*p == '\0' && need_quotes) {
+                    for (int i = 0; i < bs * 2; ++i) *dst++ = '\\';
+                } else {
+                    for (int i = 0; i < bs; ++i) *dst++ = '\\';
+                }
             }
         } else if (*p == '"') {
             *dst++ = '\\'; *dst++ = '"'; ++p;
